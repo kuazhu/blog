@@ -1,0 +1,21 @@
+/*
+* @Author: Tom
+* @Date:   2018-07-17 16:53:03
+* @Last Modified by:   Tom
+* @Last Modified time: 2018-07-17 16:56:14
+*/
+.detail-content{
+	min-height: 600px;
+}
+.detail-content .panel-title{
+	font-size: 30px;
+}
+.detail-content .sub-title{
+	margin-top: 5px;
+}
+.detail-content .sub-title span{
+	margin-right: 10px;
+}
+.detail-content .panel-body{
+	background: #fff;
+}
