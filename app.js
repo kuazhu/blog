@@ -2,7 +2,7 @@
 * @Author: Tom
 * @Date:   2018-08-06 09:14:54
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-08-07 09:40:03
+* @Last Modified time: 2018-08-07 10:38:13
 */
 //项目入口文件
 const express = require('express');
@@ -11,6 +11,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const Cookies = require('cookies');
 const session = require('express-session');
+const MongoStore = require("connect-mongo")(session);
 
 //启动数据库
 mongoose.connect('mongodb://localhost:27017/blog',{ useNewUrlParser: true });
@@ -67,6 +68,12 @@ app.use(session({
     resave: true,
     //强制将未初始化的session存储
     saveUninitialized: true, 
+    //如果为true,则每次请求都更新cookie的过期时间
+    rolling:true,
+    //cookie过期时间 1天
+    cookie:{maxAge:1000*60*60*24},    
+    //设置session存储在数据库中
+    store:new MongoStore({ mongooseConnection: mongoose.connection })   
 }))
 
 app.use((req,res,next)=>{
