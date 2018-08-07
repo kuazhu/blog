@@ -1,8 +1,8 @@
 /*
 * @Author: Tom
 * @Date:   2018-07-17 10:54:30
-* @Last Modified by:   Tom
-* @Last Modified time: 2018-08-06 11:20:54
+* @Last Modified by:   TomChen
+* @Last Modified time: 2018-08-07 11:13:38
 */
 body{
 	background: #efefef;
@@ -59,7 +59,7 @@ body{
 	padding-left: 20px;
 	box-sizing: border-box;
 }
-#logout{
+#user-info .link{
 	text-align: left;
 }
 .user-panel .err{

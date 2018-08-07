@@ -2,7 +2,7 @@
 * @Author: Tom
 * @Date:   2018-08-06 09:14:54
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-08-07 10:38:13
+* @Last Modified time: 2018-08-07 11:16:39
 */
 //项目入口文件
 const express = require('express');
@@ -90,6 +90,7 @@ app.use(bodyParser.json())
 //处理路由
 app.use("/",require('./routes/index.js'))
 app.use("/user",require('./routes/user.js'))
+app.use("/admin",require('./routes/admin.js'))
 
 
 app.listen(3000,()=>{
