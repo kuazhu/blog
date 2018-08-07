@@ -1,8 +1,8 @@
 /*
 * @Author: Tom
 * @Date:   2018-08-06 09:23:30
-* @Last Modified by:   Tom
-* @Last Modified time: 2018-08-06 17:05:20
+* @Last Modified by:   TomChen
+* @Last Modified time: 2018-08-07 09:49:37
 */
 const Router = require('express').Router;
 const UserModel = require('../models/user.js');
@@ -57,12 +57,22 @@ router.post("/login",(req,res)=>{
 	.findOne({username:body.username,password:hmac(body.password)})
 	.then((user)=>{
 		if(user){//登录成功
+			 /*	
 			 result.data = {
 			 	_id:user._id,
 			 	username:user.username,
 			 	isAdmin:user.isAdmin
 			 }
-			 req.cookies.set('userInfo',JSON.stringify(result.data))
+			 */
+			 //设置cookie->返回时前端页面就会有设置的cookie
+			 //req.cookies.set('userInfo',JSON.stringify(result.data))
+			 
+			 req.session.userInfo = {
+			 	_id:user._id,
+			 	username:user.username,
+			 	isAdmin:user.isAdmin
+			 }
+
 			 res.json(result);
 		}else{
 			result.code = 10;
@@ -78,8 +88,11 @@ router.get('/logout',(req,res)=>{
 	let result  = {
 		code:0,// 0 代表成功 
 		message:''
-	}	
+	}
+	/*	
 	req.cookies.set('userInfo',null);
+	*/
+	req.session.destroy();
 
 	res.json(result);
 

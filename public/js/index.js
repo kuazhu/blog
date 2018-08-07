@@ -1,8 +1,8 @@
 /*
 * @Author: Tom
 * @Date:   2018-07-17 10:55:01
-* @Last Modified by:   Tom
-* @Last Modified time: 2018-08-06 17:06:41
+* @Last Modified by:   TomChen
+* @Last Modified time: 2018-08-07 09:21:32
 */
 (function($){
 	var $login = $('#login');
@@ -114,6 +114,7 @@
 					$userInfo.find('span').html(result.data.username)
 					$userInfo.show(); 
 					*/
+					//刷新当前页面(首页)
 					window.location.reload();
 				}else{
 					$err.html(result.message)
