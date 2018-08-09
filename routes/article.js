@@ -2,10 +2,11 @@
 * @Author: Tom
 * @Date:   2018-08-06 09:23:30
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-08-09 15:57:05
+* @Last Modified time: 2018-08-09 16:57:28
 */
 const Router = require('express').Router;
 const CategoryModel = require('../models/category.js');
+const ArticleModel = require('../models/article.js');
 const pagination = require('../util/pagination.js');
 
 const router = Router();
@@ -19,9 +20,9 @@ router.use((req,res,next)=>{
 	}
 })
 
-//显示分类管理页面
+//显示文章管理页面
 router.get("/",(req,res)=>{
-	
+	/*
 	let options = {
 		page: req.query.page,//需要显示的页码
 		model:CategoryModel, //操作的数据模型
@@ -41,49 +42,49 @@ router.get("/",(req,res)=>{
 			url:'/category'
 		});	
 	})
+	*/
+	res.render('admin/article_list',{
+		userInfo:req.userInfo,
+	});		
 })
 
 //显示新增页面
 router.get("/add",(req,res)=>{
-	res.render('admin/category_add_edit',{
-		userInfo:req.userInfo
-	});
+	CategoryModel.find({},'_id name')
+	.sort({order:1})
+	.then((categories)=>{
+		res.render('admin/article_add',{
+			userInfo:req.userInfo,
+			categories:categories
+		});		
+	})
+
 })
 //处理添加请求
 router.post("/add",(req,res)=>{
 	let body = req.body;
-	// console.log('body::',body)
-	CategoryModel
-	.findOne({name:body.name})
-	.then((cate)=>{
-		if(cate){//已经存在渲染错误页面
-	 		res.render('admin/error',{
-				userInfo:req.userInfo,
-				message:'新增分类失败,已有同名分类'
-			})
-		}else{
-			new CategoryModel({
-				name:body.name,
-				order:body.order
-			})
-			.save()
-			.then((newCate)=>{
-				if(newCate){//新增成功,渲染成功页面
-					res.render('admin/success',{
-						userInfo:req.userInfo,
-						message:'新增分类成功',
-						url:'/category'
-					})
-				}
-			})
-			.catch((e)=>{//新增失败,渲染错误页面
-		 		res.render('admin/error',{
-					userInfo:req.userInfo,
-					message:'新增分类失败,数据库操作失败'
-				})
-			})
-		}
+	new ArticleModel({
+		category:body.category,
+		user:req.userInfo._id,
+		title:body.title,
+		intro:body.intro,
+		content:body.content
 	})
+	.save()
+	.then((article)=>{
+		res.render('admin/success',{
+			userInfo:req.userInfo,
+			message:'新增分类成功',
+			url:'/article'
+		})		
+	})
+	.catch((e)=>{
+ 		res.render('admin/error',{
+			userInfo:req.userInfo,
+			message:'新增分类失败,数据库操作失败'
+		})			
+	})
+
 })
 
 //显示编辑页面
