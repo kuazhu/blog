@@ -2,9 +2,12 @@
 * @Author: TomChen
 * @Date:   2018-08-07 14:45:30
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-08-07 14:46:27
+* @Last Modified time: 2018-08-07 17:07:53
 */
 .user-info{
 	margin-top: 5px;
     margin-right: 50px;
+}
+.btn-add{
+	margin-bottom: 10px;
 }

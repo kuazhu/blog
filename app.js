@@ -2,7 +2,7 @@
 * @Author: Tom
 * @Date:   2018-08-06 09:14:54
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-08-07 11:16:39
+* @Last Modified time: 2018-08-07 17:03:37
 */
 //项目入口文件
 const express = require('express');
@@ -81,18 +81,19 @@ app.use((req,res,next)=>{
 	req.userInfo  = req.session.userInfo || {};
 
 	next();	
-})
+});
 
 //添加处理post请求的中间件
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 //处理路由
-app.use("/",require('./routes/index.js'))
-app.use("/user",require('./routes/user.js'))
-app.use("/admin",require('./routes/admin.js'))
+app.use("/",require('./routes/index.js'));
+app.use("/user",require('./routes/user.js'));
+app.use("/admin",require('./routes/admin.js'));
+app.use("/category",require('./routes/category.js'));
 
 
 app.listen(3000,()=>{
 	console.log('server is running at 127.0.0.1:3000')
-})
+});
