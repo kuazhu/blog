@@ -2,12 +2,14 @@
 * @Author: Tom
 * @Date:   2018-08-06 09:23:30
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-08-09 11:39:00
+* @Last Modified time: 2018-08-10 09:40:28
 */
 const Router = require('express').Router;
 
 const UserModel = require('../models/user.js');
-const pagination = require('../util/pagination.js')
+const pagination = require('../util/pagination.js');
+const multer = require('multer');
+const upload = multer({ dest: 'public/uploads/' });
 
 const router = Router();
 
@@ -50,6 +52,14 @@ router.get('/users',(req,res)=>{
 			pages:data.pages,
 			url:'/admin/users'
 		});	
+	})
+})
+
+router.post('/uploadImages',upload.single('upload'),(req,res)=>{
+	let path = "/uploads/"+req.file.filename;
+	res.json({
+		uploaded:true,
+        url:path
 	})
 })
 
