@@ -2,7 +2,7 @@
 * @Author: Tom
 * @Date:   2018-08-06 09:23:30
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-08-09 15:57:05
+* @Last Modified time: 2018-08-10 16:07:44
 */
 const Router = require('express').Router;
 const CategoryModel = require('../models/category.js');
@@ -102,6 +102,7 @@ router.get("/edit/:id",(req,res)=>{
 //处理编辑请求
 router.post('/edit',(req,res)=>{
 	let body = req.body;
+	/*
 	CategoryModel.findOne({name:body.name})
 	.then((category)=>{
 		if(category && category.order == body.order ){
@@ -121,6 +122,41 @@ router.post('/edit',(req,res)=>{
 			 		res.render('admin/error',{
 						userInfo:req.userInfo,
 						message:'修改分类失败,数据库操作失败'
+					})					
+				}
+			})
+		}
+	})
+	*/
+	CategoryModel.findById(body.id)
+	.then((category)=>{
+		if(category.name == body.name && category.order == body.order){
+	 		res.render('admin/error',{
+				userInfo:req.userInfo,
+				message:'请修改数据后提交'
+			})				
+		}else{
+			CategoryModel.findOne({name:body.name,_id:{$ne:body.id}})
+			.then((newCategory)=>{
+				if(newCategory){
+			 		res.render('admin/error',{
+						userInfo:req.userInfo,
+						message:'编辑分类失败,已有同名分类'
+					})						
+				}else{
+					CategoryModel.update({_id:body.id},{name:body.name,order:body.order},(err,raw)=>{
+						if(!err){
+							res.render('admin/success',{
+								userInfo:req.userInfo,
+								message:'修改分类成功',
+								url:'/category'
+							})					
+						}else{
+					 		res.render('admin/error',{
+								userInfo:req.userInfo,
+								message:'修改分类失败,数据库操作失败'
+							})					
+						}
 					})					
 				}
 			})

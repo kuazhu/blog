@@ -2,7 +2,7 @@
 * @Author: Tom
 * @Date:   2018-08-06 09:23:30
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-08-10 11:19:25
+* @Last Modified time: 2018-08-10 15:52:06
 */
 const Router = require('express').Router;
 const CategoryModel = require('../models/category.js');
@@ -51,7 +51,7 @@ router.get("/add",(req,res)=>{
 	CategoryModel.find({},'_id name')
 	.sort({order:1})
 	.then((categories)=>{
-		res.render('admin/article_add',{
+		res.render('admin/article_add_edit',{
 			userInfo:req.userInfo,
 			categories:categories
 		});		
@@ -88,44 +88,49 @@ router.post("/add",(req,res)=>{
 //显示编辑页面
 router.get("/edit/:id",(req,res)=>{
 	let id = req.params.id;
-	
-	CategoryModel.findById(id)
-	.then((category)=>{
-		res.render('admin/category_add_edit',{
-			userInfo:req.userInfo,
-			category:category
-		});		
-	});
+	CategoryModel.find({},'_id name')
+	.sort({order:1})
+	.then((categories)=>{
+		ArticleModel.findById(id)
+		.then((article)=>{
+			res.render('admin/article_add_edit',{
+				userInfo:req.userInfo,
+				categories:categories,
+				article:article
+			});		
+		})
+		.catch((e)=>{
+	 		res.render('admin/error',{
+				userInfo:req.userInfo,
+				message:'获取的文章不存在'
+			})	
+		})
+	})
 });
 
 //处理编辑请求
 router.post('/edit',(req,res)=>{
 	let body = req.body;
-	CategoryModel.findOne({name:body.name})
-	.then((category)=>{
-		if(category && category.order == body.order ){
+	let options = {
+		category:body.category,
+		title:body.title,
+		intro:body.intro,
+		content:body.content
+	}
+	ArticleModel.update({_id:body.id},options,(err,raw)=>{
+		if(!err){
+			res.render('admin/success',{
+				userInfo:req.userInfo,
+				message:'编辑文章成功',
+				url:'/article'
+			})	
+		}else{
 	 		res.render('admin/error',{
 				userInfo:req.userInfo,
-				message:'编辑分类失败,已有同名分类'
-			})			
-		}else{
-			CategoryModel.update({_id:body.id},{name:body.name,order:body.order},(err,raw)=>{
-				if(!err){
-					res.render('admin/success',{
-						userInfo:req.userInfo,
-						message:'修改分类成功',
-						url:'/category'
-					})					
-				}else{
-			 		res.render('admin/error',{
-						userInfo:req.userInfo,
-						message:'修改分类失败,数据库操作失败'
-					})					
-				}
-			})
+				message:'编辑文章失败,数据库操作失败'
+			})	
 		}
-	})
-
+	});
 })
 //处理删除
 router.get("/delete/:id",(req,res)=>{
