@@ -2,7 +2,7 @@
 * @Author: Tom
 * @Date:   2018-08-06 09:23:30
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-08-09 16:57:28
+* @Last Modified time: 2018-08-10 11:19:25
 */
 const Router = require('express').Router;
 const CategoryModel = require('../models/category.js');
@@ -22,30 +22,28 @@ router.use((req,res,next)=>{
 
 //显示文章管理页面
 router.get("/",(req,res)=>{
-	/*
+
 	let options = {
 		page: req.query.page,//需要显示的页码
-		model:CategoryModel, //操作的数据模型
+		model:ArticleModel, //操作的数据模型
 		query:{}, //查询条件
-		projection:'_id name order', //投影，
-		sort:{order:1} //排序
+		projection:'-__v', //投影，
+		sort:{_id:-1}, //排序
+		populate:[{path:'category',select:'name'},{path:'user',select:'username'}]
 	}
 
 	pagination(options)
 	.then((data)=>{
-		res.render('admin/category_list',{
+		res.render('admin/article_list',{
 			userInfo:req.userInfo,
-			categories:data.docs,
+			articles:data.docs,
 			page:data.page,
 			list:data.list,
 			pages:data.pages,
-			url:'/category'
+			url:'/article'
 		});	
 	})
-	*/
-	res.render('admin/article_list',{
-		userInfo:req.userInfo,
-	});		
+	
 })
 
 //显示新增页面
@@ -133,17 +131,17 @@ router.post('/edit',(req,res)=>{
 router.get("/delete/:id",(req,res)=>{
 	let id = req.params.id;
 	
-	CategoryModel.remove({_id:id},(err,raw)=>{
+	ArticleModel.remove({_id:id},(err,raw)=>{
 		if(!err){
 			res.render('admin/success',{
 				userInfo:req.userInfo,
-				message:'删除分类成功',
-				url:'/category'
+				message:'删除文章成功',
+				url:'/article'
 			})				
 		}else{
 	 		res.render('admin/error',{
 				userInfo:req.userInfo,
-				message:'删除分类失败,数据库操作失败'
+				message:'删除文章失败,数据库操作失败'
 			})				
 		}		
 	})
