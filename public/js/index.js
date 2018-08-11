@@ -2,7 +2,7 @@
 * @Author: Tom
 * @Date:   2018-07-17 10:55:01
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-08-10 17:23:57
+* @Last Modified time: 2018-08-11 09:25:16
 */
 (function($){
 	var $login = $('#login');
@@ -164,11 +164,11 @@
 	 	.done(function(result){
 	 		if(result.code == 0){
 	 			buildArticleList(result.data.docs);
+	 			buildPage(result.data.list,result.data.page)
 	 		}
-	 		console.log(result)
 	 	})
-	 	.fail(function(){
-
+	 	.fail(function(err){
+	 		console.log(err)
 	 	})
 
 	 })
@@ -176,7 +176,7 @@
 	 function buildArticleList(articles){
 	 	var html = '';
 	 	for(var i = 0;i<articles.length;i++){
-	 	var data = moment(articles[i].createdAt).format('YYYY年MM月DD日 h:mm:ss ');
+	 	var data = moment(articles[i].createdAt).format('YYYY年MM月DD日 HH:mm:ss ');
 	 	html +=`<div class="panel panel-default content-item">
 			  <div class="panel-heading">
 			    <h3 class="panel-title">
@@ -209,5 +209,26 @@
 		$('#article-list').html(html);
 	 }
 
+	 function buildPage(list,page){
+	 	var html = `<li>
+				      <a href="javascript:;" aria-label="Previous">
+				        <span aria-hidden="true">&laquo;</span>
+				      </a>
+				    </li>`
 
+	    for(i in list){
+	    	if(list[i] == page){
+	    		html += `<li class="active"><a href="javascript:;">${list[i]}</a></li>`;
+	    	}else{
+	    		html += `<li><a href="javascript:;">${list[i]}</a></li>`
+	    	}
+	    }
+
+	 	html += `<li>
+			      <a href="javascript:;" aria-label="Next">
+			        <span aria-hidden="true">&raquo;</span>
+			      </a>
+			    </li>`
+		$('#page .pagination').html(html)	    
+	}
 })(jQuery);

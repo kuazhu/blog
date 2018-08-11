@@ -2,7 +2,7 @@
 * @Author: Tom
 * @Date:   2018-08-06 09:23:30
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-08-10 16:54:27
+* @Last Modified time: 2018-08-11 09:58:54
 */
 const Router = require('express').Router;
 const CategoryModel = require('../models/category.js');
@@ -22,7 +22,7 @@ router.use((req,res,next)=>{
 
 //显示文章管理页面
 router.get("/",(req,res)=>{
-
+	/*
 	let options = {
 		page: req.query.page,//需要显示的页码
 		model:ArticleModel, //操作的数据模型
@@ -33,6 +33,8 @@ router.get("/",(req,res)=>{
 	}
 
 	pagination(options)
+	*/
+	ArticleModel.getPaginationArticles(req)
 	.then((data)=>{
 		res.render('admin/article_list',{
 			userInfo:req.userInfo,

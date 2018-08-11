@@ -2,9 +2,10 @@
 * @Author: TomChen
 * @Date:   2018-08-04 17:14:00
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-08-09 16:53:19
+* @Last Modified time: 2018-08-11 09:57:44
 */
 const mongoose = require('mongoose');
+const pagination = require('../util/pagination.js');
 
 const ArticleSchema = new mongoose.Schema({
   category:{
@@ -34,6 +35,22 @@ const ArticleSchema = new mongoose.Schema({
   }  
 });
 
+ArticleSchema.statics.getPaginationArticles = function(req,query={}){
+    return new Promise((resolve,reject)=>{
+      let options = {
+        page: req.query.page,//需要显示的页码
+        model:this, //操作的数据模型
+        query:query, //查询条件
+        projection:'-__v', //投影，
+        sort:{_id:-1}, //排序
+        populate:[{path:'category',select:'name'},{path:'user',select:'username'}]
+      }
+      pagination(options)
+      .then((data)=>{
+        resolve(data); 
+      })
+    })
+ }
 
 const ArticleModel = mongoose.model('Article', ArticleSchema);
 
