@@ -2,7 +2,7 @@
 * @Author: TomChen
 * @Date:   2018-08-04 17:14:00
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-08-11 09:57:44
+* @Last Modified time: 2018-08-11 17:20:52
 */
 const mongoose = require('mongoose');
 const pagination = require('../util/pagination.js');
@@ -32,7 +32,7 @@ const ArticleSchema = new mongoose.Schema({
   createdAt:{
   	type:Date,
   	default:Date.now
-  }  
+  } 
 });
 
 ArticleSchema.statics.getPaginationArticles = function(req,query={}){

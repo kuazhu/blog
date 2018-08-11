@@ -2,7 +2,7 @@
 * @Author: Tom
 * @Date:   2018-07-17 10:55:01
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-08-11 09:25:16
+* @Last Modified time: 2018-08-11 17:16:32
 */
 (function($){
 	var $login = $('#login');
@@ -148,16 +148,26 @@
 
 	 	var page = 1;
 	 	var currentPage = $('#page').find('.active a').html();
-	 	if($this.attr('aria-label') == 'Previous'){//上一页
+	 	var label = $this.attr('aria-label');
+
+	 	if(label == 'Previous'){//上一页
 	 		page = currentPage - 1;
-	 	}else if($this.attr('aria-label') == 'Next'){//下一页
+	 	}else if(label == 'Next'){//下一页
 	 		page = currentPage*1 + 1;
 	 	}else{
 	 		page = $(this).html();
 	 	} 
 
+	 	var query = 'page='+page;
+
+	 	var category = $('#cate-id').val();
+
+	 	if(category){
+	 		query += "&category="+category;
+	 	}
+
 	 	$.ajax({
-	 		url:'/articles?page='+page,
+	 		url:'/articles?'+query,
 	 		type:'get',
 	 		dataType:'json'
 	 	})
@@ -231,4 +241,32 @@
 			    </li>`
 		$('#page .pagination').html(html)	    
 	}
+
+	//发布评论
+	$('#comment-btn').on('click',function(){
+		var articleId = $('#article-id').val();
+		var commentContent = $('#comment-content').val();
+
+		if(commentContent.trim() == ''){
+			$('.err').html('评论内容不能为空');
+			return false;
+		}else{
+			$('.err').html('')
+		}
+
+		$.ajax({
+			url:'/comment/add',
+			type:'post',
+			dataType:'json',
+			data:{id:articleId,content:commentContent}
+		})
+		.done(function(result){
+			console.log(result);
+		})
+		.fail(function(err){
+			console.log(err)
+		})
+
+
+	});
 })(jQuery);

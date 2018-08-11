@@ -24,9 +24,18 @@
 	    </div>
 	    <div class="collapse navbar-collapse" id="top-nav">
 	      <ul class="nav navbar-nav">
-	        <li class="active"><a href="/">首页</a></li>
-	        {% for category in categories %}
-				<li><a href="/list/{{ category._id.toString() }}">{{ category.name }}</a></li>
+	      	{% if category %}
+	      	<li><a href="/">首页</a></li>
+	      	{% else %}
+	      	<li class="active"><a href="/">首页</a></li>
+	      	{% endif %}
+	        
+	        {% for cate in categories %}
+	        	{% if cate._id.toString() == category  %}
+				<li class="active"><a href="/list/{{ cate._id.toString() }}">{{ cate.name }}</a></li>
+	        	{% else %}
+	        	<li><a href="/list/{{ cate._id.toString() }}">{{ cate.name }}</a></li>
+	        	{% endif %}
 	        {% endfor %}
 	      </ul>
 	    </div><!-- /.navbar-collapse -->

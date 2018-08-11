@@ -2,7 +2,7 @@
 * @Author: Tom
 * @Date:   2018-08-06 09:23:30
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-08-11 11:39:38
+* @Last Modified time: 2018-08-11 16:26:09
 */
 const Router = require('express').Router;
 const CategoryModel = require('../models/category.js');
@@ -57,19 +57,12 @@ router.get("/",(req,res)=>{
 
 //ajax请求获取文章列表的分页数据
 router.get("/articles",(req,res)=>{
-	/*
-	let options = {
-		page: req.query.page,//需要显示的页码
-		model:ArticleModel, //操作的数据模型
-		query:{}, //查询条件
-		projection:'-__v', //投影，
-		sort:{_id:-1}, //排序
-		populate:[{path:'category',select:'name'},{path:'user',select:'username'}]
+	let category = req.query.category;
+	let query = {};
+	if(category){
+		query.category = category;
 	}
-
-	pagination(options)
-	*/
-	ArticleModel.getPaginationArticles(req)
+	ArticleModel.getPaginationArticles(req,query)
 	.then((data)=>{
 		res.json({
 			code:'0',
@@ -79,7 +72,6 @@ router.get("/articles",(req,res)=>{
 });
 
 //显示详情页面
-
 router.get("/view/:id",(req,res)=>{
 	let id = req.params.id;
 	/*
@@ -121,10 +113,34 @@ router.get("/view/:id",(req,res)=>{
 				userInfo:req.userInfo,
 				article:article,
 				categories:data.categories,
-				topArticles:data.topArticles
+				topArticles:data.topArticles,
+				category:article.category._id.toString()
 			})			
 		})
 	})
+})
+
+//显示列表页面
+router.get("/list/:id",(req,res)=>{
+	let id = req.params.id;
+	ArticleModel.getPaginationArticles(req,{category:id})
+	.then(pageData=>{
+		getCommonData()
+		.then(data=>{
+			res.render('main/list',{
+				userInfo:req.userInfo,
+				articles:pageData.docs,
+				page:pageData.page,
+				list:pageData.list,
+				pages:pageData.pages,
+				categories:data.categories,
+				topArticles:data.topArticles,
+				category:id,
+				url:'/articles'
+			});				
+		})
+	})
+
 })
 
 module.exports = router;

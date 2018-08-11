@@ -1,0 +1,56 @@
+<div id='article-list'>
+{% for article in articles %}
+<div class="panel panel-default content-item">
+  <div class="panel-heading">
+    <h3 class="panel-title">
+    	<a href="/view/{{ article._id.toString() }}" class="link" target="_blank">{{ article.title }}</a>
+	</h3>
+  </div>
+  <div class="panel-body">
+	{{ article.intro }}
+  </div>
+  <div class="panel-footer">
+	<span class="glyphicon glyphicon-user"></span>
+	<span class="panel-footer-text text-muted">
+		{{ article.user.username }}
+	</span>
+	<span class="glyphicon glyphicon-th-list"></span>
+	<span class="panel-footer-text text-muted">
+		{{ article.category.name }}
+	</span>
+	<span class="glyphicon glyphicon-time"></span>
+	<span class="panel-footer-text text-muted">
+		{{ article.createdAt | date('Y年m月d日 H:i:s',-8*60) }}
+	</span>
+	<span class="glyphicon glyphicon-eye-open"></span>
+	<span class="panel-footer-text text-muted">
+		<em>{{ article.click }}</em>已阅读
+	</span>
+  </div>
+</div>
+{% endfor %}
+</div>
+{% if pages > 1 %}
+<nav aria-label="Page navigation" id="page">
+  <ul class="pagination">
+    <li>
+      <a href="javascript:;" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    {% for i in list%}
+    {% if i == page %}
+    <li class="active"><a href="javascript:;">{{ i }}</a></li>
+    {% else %}
+    <li><a href="javascript:;">{{ i }}</a></li>
+    {% endif %}
+    
+    {% endfor %}
+    <li>
+      <a href="javascript:;" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+{% endif %}

@@ -2,7 +2,7 @@
 * @Author: TomChen
 * @Date:   2018-08-09 10:22:53
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-08-10 11:19:14
+* @Last Modified time: 2018-08-11 15:48:24
 */
 
 
@@ -49,7 +49,7 @@ let pagination = (options)=>{
 		(page - 1) * limit
 		*/
 
-		options.model.estimatedDocumentCount(options.query)
+		options.model.countDocuments(options.query)
 		.then((count)=>{
 			let pages = Math.ceil(count / limit);
 			if(page > pages){

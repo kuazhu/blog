@@ -32,4 +32,16 @@
 		</p>
 	  </div>
 	</div>
+	<div class="row">
+	  <div class="col-lg-12">
+	    <div class="input-group">
+	    	<textarea id="comment-content" cols="30" rows="3" class="form-control"></textarea>
+	      	<span class="input-group-btn">
+	      	<input type="hidden" value="{{ article._id.toString() }}" id="article-id">
+	        <a href="javascript:;" class="btn btn-primary" type="button" id='comment-btn'>提交</button>
+	      </a>
+	    </div>
+	    <p class="text-danger err"></p>
+	  </div>
+	</div>
 {% endblock %}

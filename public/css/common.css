@@ -2,7 +2,7 @@
 * @Author: Tom
 * @Date:   2018-07-17 10:54:30
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-08-11 09:23:59
+* @Last Modified time: 2018-08-11 17:08:24
 */
 body{
 	background: #efefef;
@@ -126,7 +126,9 @@ body{
 	display: block;
 	color: #333;
 }
-
+#comment-btn{
+	    padding: 25px 10px;
+}
 footer{
 	text-align: center;
 }
