@@ -2,7 +2,7 @@
 * @Author: Tom
 * @Date:   2018-08-06 09:23:30
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-08-11 17:26:24
+* @Last Modified time: 2018-08-13 10:54:31
 */
 const Router = require('express').Router;
 const CommentModel = require('../models/comment.js')
@@ -19,9 +19,28 @@ router.post("/add",(req,res)=>{
 	})
 	.save()
 	.then(comment=>{
+		CommentModel.getPaginationComments(req,{article:body.id})
+		.then(data=>{
+			res.json({
+				code:0,
+				data:data
+			});			
+		})
+	})
+})
+
+router.get('/list',(req,res)=>{
+	let article = req.query.id;
+	let query = {};
+	if(article){
+		query.article = article;
+	}
+	CommentModel.getPaginationComments(req,query)
+	.then((data)=>{
 		res.json({
-			code:0
-		});
+			code:'0',
+			data:data
+		})
 	})
 })
 

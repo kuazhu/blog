@@ -1,0 +1,30 @@
+{
+	"name":"我的博客",
+	"carouseles":[
+		{
+			"url":"http://www.baidu.com",
+			"path":"/1.jpg"
+		},
+		{
+			"url":"http://www.taobao.com",
+			"path":"/2.jpg"
+		}
+	],
+	"ads":[
+		{
+			"url":"http://www.baidu.com",
+			"path":"/1.jpg"
+		},
+		{
+			"url":"http://www.taobao.com",
+			"path":"/2.jpg"
+		}		
+	],
+	"author":{
+		"name":"Tom",
+		"intro":"xxxx",
+		"image":"/img/1.jpg",
+		"wechat":"/img/2.jpg"
+	},
+	"icp":"豫ICP备11002373号-1."
+}

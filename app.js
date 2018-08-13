@@ -2,7 +2,7 @@
 * @Author: Tom
 * @Date:   2018-08-06 09:14:54
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-08-11 17:18:18
+* @Last Modified time: 2018-08-13 14:49:20
 */
 //项目入口文件
 const express = require('express');
@@ -94,6 +94,7 @@ app.use("/admin",require('./routes/admin.js'));
 app.use("/category",require('./routes/category.js'));
 app.use("/article",require('./routes/article.js'));
 app.use("/comment",require('./routes/comment.js'));
+app.use("/resource",require('./routes/resource.js'));
 
 
 app.listen(3000,()=>{

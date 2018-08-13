@@ -2,7 +2,7 @@
 * @Author: TomChen
 * @Date:   2018-08-07 14:45:30
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-08-10 09:13:01
+* @Last Modified time: 2018-08-13 16:57:52
 */
 .user-info{
 	margin-top: 5px;
@@ -13,4 +13,16 @@
 }
 .ck-editor__editable{
 	min-height: 300px;
+}
+table.table {
+	table-layout: fixed;
+}
+td{
+	word-break: break-word;
+}
+.btn-add{
+	margin-top: 10px;
+}
+.row-site{
+	margin-bottom: 10px;
 }
