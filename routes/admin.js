@@ -2,13 +2,14 @@
 * @Author: Tom
 * @Date:   2018-08-06 09:23:30
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-08-14 11:31:24
+* @Last Modified time: 2018-08-14 15:52:18
 */
 const Router = require('express').Router;
 
 const UserModel = require('../models/user.js');
 const CommentModel = require('../models/comment.js');
 const pagination = require('../util/pagination.js');
+const hmac = require('../util/hmac.js')
 const multer = require('multer');
 const upload = multer({ dest: 'public/uploads/' });
 const fs = require('fs');
@@ -76,7 +77,8 @@ router.get('/comments',(req,res)=>{
 			comments:data.docs,
 			page:data.page,
 			pages:data.pages,
-			list:data.list
+			list:data.list,
+			url:'/admin/comments'
 		})
 	})
 })
@@ -181,7 +183,28 @@ router.post("/site",(req,res)=>{
 			})				
 		}
 	})
+})
 
+//显示修改密码页面
+router.get('/password',(req,res)=>{
+	res.render('admin/password',{
+		userInfo:req.userInfo
+	})
+})
+
+//修改密码请求处理
+router.post('/password',(req,res)=>{
+	UserModel.update({_id:req.userInfo._id},{
+		password:hmac(req.body.password)
+	})
+	.then(raw=>{
+		req.session.destroy();
+		res.render('admin/success',{
+			userInfo:req.userInfo,
+			message:'更新密码成功',
+			url:'/'
+		})			
+	})
 })
 
 module.exports = router;

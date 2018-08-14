@@ -2,7 +2,7 @@
 * @Author: Tom
 * @Date:   2018-07-17 10:55:01
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-08-13 10:55:47
+* @Last Modified time: 2018-08-14 16:10:08
 */
 (function($){
 	var $login = $('#login');
@@ -146,7 +146,11 @@
 	var $articlePage = $('#article-page');
 	$articlePage.on('get-data',function(e,result){
 	 	buildArticleList(result.data.docs);
-	 	buildPage($articlePage,result.data.list,result.data.page)
+	 	if(result.data.pages > 1){
+	 		buildPage($articlePage,result.data.list,result.data.page)	
+	 	}else{
+	 		$articlePage.find('.pagination').html('');
+	 	}
 	})
 	$articlePage.pagination();
 
@@ -236,8 +240,11 @@
 				//1.渲染评论列表
 				buildCommentList(result.data.docs)
 				//2.渲染分页
-				buildPage($commentPage,result.data.list,result.data.page)
-
+				if(result.data.pages > 1){
+					buildPage($commentPage,result.data.list,result.data.page)	
+				}else{
+	 				$commentPage.find('.pagination').html('');
+	 			}
 				$('#comment-content').val('')
 			}
 		})
@@ -267,7 +274,11 @@
 	
 	$commentPage.on('get-data',function(e,result){
 		buildCommentList(result.data.docs)
-	 	buildPage($commentPage,result.data.list,result.data.page)
+		if(result.data.pages > 1){
+	 		buildPage($commentPage,result.data.list,result.data.page)
+	 	}else{
+	 		$commentPage.find('.pagination').html('');
+	 	}
 	})
 	$commentPage.pagination();	
 
