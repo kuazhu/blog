@@ -20,7 +20,7 @@
 	        <span class="icon-bar"></span>
 	        <span class="icon-bar"></span>
 	      </button>
-	      <a class="navbar-brand" href="#">我的个人博客</a>
+	      <a class="navbar-brand" href="/">{{ site.name }}</a>
 	    </div>
 	    <div class="collapse navbar-collapse" id="top-nav">
 	      <ul class="nav navbar-nav">
@@ -116,16 +116,13 @@
 					  </div>					  
 					</div>	
 					{% endif %}
+					{% for ad in site.ads %}
 					<div class="ad">
-						<a href="#" class="thumbnail">
-							<img src="/img/ad/ad2.jpg" class="img-responsive" alt="Responsive image">
+						<a href="{{ ad.url }}" class="thumbnail" target="_blank">
+							<img src="{{ ad.path }}" class="img-responsive" alt="Responsive image">
 						</a>
 					</div>					
-					<div class="ad">
-						<a href="#" class="thumbnail">
-							<img src="/img/ad/ad1.jpg" class="img-responsive" alt="Responsive image">
-						</a>
-					</div>	
+					{% endfor %}
 					<div class="panel panel-default custom-panel">
 					  <div class="panel-heading">
 					    <h3 class="panel-title">博主介绍</h3>
@@ -134,12 +131,12 @@
 					    <div class="media">
 						  <div class="media-left">
 						    <a href="#">
-						      <img class="media-object img-circle about-me-img" src="/img/me.jpg" alt="me.jpg">
+						      <img class="media-object img-circle about-me-img" src="{{ site.author.image }}" alt="me.jpg">
 						    </a>
 						  </div>
 						  <div class="media-body">
-						    <h4 class="media-heading">Tom</h4>
-						    80后草根！07年入行。一直潜心研究web技术，一边工作一边积累经验，分享一些个人心得。
+						    <h4 class="media-heading">{{ site.author.name }}</h4>
+						   {{ site.author.intro }}
 						  </div>
 						</div>
 					  </div>
@@ -161,7 +158,7 @@
 					    <h3 class="panel-title">关注我</h3>
 					  </div>
 					  <div class="panel-body">
-							<img class="img-responsive" src="/img/wechat.jpeg" alt="">
+							<img class="img-responsive" src="{{ site.author.wechat }}" alt="">
 					  </div>
 					</div>																
 				</div>
@@ -170,7 +167,7 @@
 	</div>
 	<footer>
 		<p>
-			Blog Design by <a href="#">Kuazhu</a> <a href="#">豫ICP备11002373号-1</a>.
+			Blog Design by <a href="#">Kuazhu</a> <a href="/">{{ site.icp }}</a>
 		</p>
 	</footer>
 </body>
@@ -178,5 +175,5 @@
 <script src="/lib/bootstrap/js/bootstrap.min.js"></script>
 <script src="/lib/moment/moment.js"></script>
 <script src="/js/pagination.js"></script>
-<script src="/js/index.js"></script>
+<script src="/js/common.js"></script>
 </html>

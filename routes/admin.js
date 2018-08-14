@@ -2,7 +2,7 @@
 * @Author: Tom
 * @Date:   2018-08-06 09:23:30
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-08-13 17:22:54
+* @Last Modified time: 2018-08-14 11:31:24
 */
 const Router = require('express').Router;
 
@@ -120,7 +120,68 @@ router.get("/site",(req,res)=>{
 })
 //处理修改网站配置请求
 router.post("/site",(req,res)=>{
-	console.log(req.body)
+	let body = req.body;
+	let site = {
+		name:body.name,
+		author:{
+			name:body.authorName,
+			intro:body.authorIntro,
+			image:body.authorImage,
+			wechat:body.authorWechat
+		},
+		icp:body.icp
+	}
+	site.carouseles = [];
+	
+	if(body.carouselUrl.length && (typeof body.carouselUrl == 'object')){
+		for(let i = 0;i<body.carouselUrl.length;i++){
+			site.carouseles.push({
+				url:body.carouselUrl[i],
+				path:body.carouselPath[i]
+			})			
+		}
+	}else{
+		site.carouseles.push({
+			url:body.carouselUrl,
+			path:body.carouselPath
+		})
+	}
+
+
+	site.ads = [];
+
+	if(body.adUrl.length && (typeof body.adUrl == 'object')){
+		for(let i = 0;i<body.adUrl.length;i++){
+			site.ads.push({
+				url:body.adUrl[i],
+				path:body.adPath[i]
+			})			
+		}
+	}else{
+		site.ads.push({
+			url:body.adUrl,
+			path:body.adPath
+		})
+	}
+
+	let strSite = JSON.stringify(site);
+
+	let filePath = path.normalize(__dirname + '/../site-info.json');
+	fs.writeFile(filePath,strSite,(err)=>{
+		if(!err){
+			res.render('admin/success',{
+				userInfo:req.userInfo,
+				message:'更新站点信息成功',
+				url:'/admin/site'
+			})				
+		}else{
+	 		res.render('admin/error',{
+				userInfo:req.userInfo,
+				message:'更新站点信息失败,文件写入失败'
+			})				
+		}
+	})
+
 })
 
 module.exports = router;

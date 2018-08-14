@@ -2,7 +2,7 @@
 * @Author: Tom
 * @Date:   2018-08-06 09:23:30
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-08-13 10:48:04
+* @Last Modified time: 2018-08-14 11:31:09
 */
 const Router = require('express').Router;
 const CategoryModel = require('../models/category.js');
@@ -26,6 +26,7 @@ router.get("/",(req,res)=>{
 				pages:pageData.pages,
 				categories:data.categories,
 				topArticles:data.topArticles,
+				site:data.site,
 				url:'/articles'
 			});				
 		})
@@ -67,6 +68,7 @@ router.get("/view/:id",(req,res)=>{
 					page:pageData.page,
 					list:pageData.list,
 					pages:pageData.pages,
+					site:data.site,
 					category:article.category._id.toString()
 				})			      	
 			})
@@ -90,6 +92,7 @@ router.get("/list/:id",(req,res)=>{
 				categories:data.categories,
 				topArticles:data.topArticles,
 				category:id,
+				site:data.site,
 				url:'/articles'
 			});	
 
